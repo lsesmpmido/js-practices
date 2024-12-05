@@ -9,10 +9,9 @@ for (let i = 1; i <= 20; i++) {
   if (i % 5 === 0) {
     text += "Buzz";
   }
-
   if (text === "") {
-    console.log(i.toString());
-  } else {
-    console.log(text);
+    text += i.toString();
   }
+
+  console.log(text);
 }
