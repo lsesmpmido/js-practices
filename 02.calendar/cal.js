@@ -3,10 +3,10 @@
 import minimist from "minimist";
 import { endOfMonth } from "date-fns";
 
-const ARGV = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 const today = new Date();
-const YEAR = ARGV.y || today.getFullYear();
-const MONTH = ARGV.m || today.getMonth() + 1;
+const YEAR = argv.y || today.getFullYear();
+const MONTH = argv.m || today.getMonth() + 1;
 const first_day = new Date(YEAR, MONTH - 1, 1);
 const END_OF_MONTH = endOfMonth(first_day).getDate();
 
