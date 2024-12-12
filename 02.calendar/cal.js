@@ -10,7 +10,7 @@ const MONTH = ARGV.m || today.getMonth() + 1;
 const first_day = new Date(YEAR, MONTH - 1, 1);
 const END_OF_MONTH = endOfMonth(first_day).getDate();
 
-console.log("      " + MONTH + "月 " + YEAR);
+console.log(`      ${MONTH}月 ${YEAR}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(first_day.getDay()));
 for (let day = 1; day <= END_OF_MONTH; day++) {
