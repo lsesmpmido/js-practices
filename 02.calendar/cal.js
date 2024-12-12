@@ -14,9 +14,11 @@ console.log(`      ${MONTH}月 ${YEAR}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(firstDay.getDay()));
 for (let day = 1; day <= lastDay.getDate(); day++) {
-  process.stdout.write(day.toString().padStart(2) + " ");
+  process.stdout.write(day.toString().padStart(2));
   if ((firstDay.getDay() + day - 1) % 7 === 6) {
     process.stdout.write("\n");
+  } else if (day !== lastDay.getDate()) {
+    process.stdout.write(" ");
   }
 }
 process.stdout.write("\n\n");
