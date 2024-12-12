@@ -5,8 +5,8 @@ import { endOfMonth } from "date-fns";
 
 const argv = minimist(process.argv.slice(2));
 const today = new Date();
-const YEAR = argv.y || today.getFullYear();
-const MONTH = argv.m || today.getMonth() + 1;
+const YEAR = argv.y ?? today.getFullYear();
+const MONTH = argv.m ?? today.getMonth() + 1;
 const firstDay = new Date(YEAR, MONTH - 1, 1);
 const lastDay = endOfMonth(firstDay);
 
