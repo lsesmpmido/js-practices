@@ -5,12 +5,12 @@ import { endOfMonth } from "date-fns";
 
 const argv = minimist(process.argv.slice(2));
 const today = new Date();
-const YEAR = argv.y ?? today.getFullYear();
-const MONTH = argv.m ?? today.getMonth() + 1;
-const firstDay = new Date(YEAR, MONTH - 1, 1);
+const year = argv.y ?? today.getFullYear();
+const month = argv.m ?? today.getMonth() + 1;
+const firstDay = new Date(year, month - 1, 1);
 const lastDay = endOfMonth(firstDay);
 
-console.log(`      ${MONTH}月 ${YEAR}`);
+console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(firstDay.getDay()));
 for (let day = 1; day <= lastDay.getDate(); day++) {
