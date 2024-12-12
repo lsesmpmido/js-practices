@@ -7,15 +7,15 @@ const argv = minimist(process.argv.slice(2));
 const today = new Date();
 const YEAR = argv.y || today.getFullYear();
 const MONTH = argv.m || today.getMonth() + 1;
-const first_day = new Date(YEAR, MONTH - 1, 1);
-const END_OF_MONTH = endOfMonth(first_day).getDate();
+const firstDay = new Date(YEAR, MONTH - 1, 1);
+const END_OF_MONTH = endOfMonth(firstDay).getDate();
 
 console.log(`      ${MONTH}月 ${YEAR}`);
 console.log("日 月 火 水 木 金 土");
-process.stdout.write("   ".repeat(first_day.getDay()));
+process.stdout.write("   ".repeat(firstDay.getDay()));
 for (let day = 1; day <= END_OF_MONTH; day++) {
   process.stdout.write(day.toString().padStart(2) + " ");
-  if (new Date(YEAR, MONTH - 1, day).getDay() === 6) {
+  if ((firstDay.getDay() + day - 1) % 7 === 6) {
     process.stdout.write("\n");
   }
 }
