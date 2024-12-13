@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 import minimist from "minimist";
-import { endOfMonth } from "date-fns";
+import * as dateFns from "date-fns";
 
 const argv = minimist(process.argv.slice(2));
 const today = new Date();
 const year = argv.y ?? today.getFullYear();
 const month = argv.m ?? today.getMonth() + 1;
 const firstDay = new Date(year, month - 1, 1);
-const lastDay = endOfMonth(firstDay);
+const lastDay = dateFns.endOfMonth(firstDay);
 
 console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
