@@ -13,14 +13,16 @@ const lastDay = dateFns.endOfMonth(firstDay);
 console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(firstDay.getDay()));
-let currentDay = firstDay;
-while (currentDay <= lastDay) {
+for (
+  let currentDay = firstDay;
+  currentDay <= lastDay;
+  currentDay.setDate(currentDay.getDate() + 1)
+) {
   process.stdout.write(currentDay.getDate().toString().padStart(2));
   if (currentDay.getDay() === 6) {
     process.stdout.write("\n");
   } else if (currentDay !== lastDay) {
     process.stdout.write(" ");
   }
-  currentDay.setDate(currentDay.getDate() + 1);
 }
 process.stdout.write("\n\n");
