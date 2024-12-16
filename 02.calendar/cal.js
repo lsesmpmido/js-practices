@@ -14,7 +14,7 @@ console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(firstDay.getDay()));
 for (
-  let currentDay = firstDay;
+  let currentDay = new Date(firstDay);
   currentDay <= lastDay;
   currentDay.setDate(currentDay.getDate() + 1)
 ) {
