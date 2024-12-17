@@ -25,4 +25,8 @@ for (
     process.stdout.write(" ");
   }
 }
-process.stdout.write("\n\n");
+if (lastDay.getDay() === 6) {
+  process.stdout.write("\n");
+} else {
+  process.stdout.write("\n\n");
+}
