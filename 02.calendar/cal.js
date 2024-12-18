@@ -19,14 +19,11 @@ for (
   currentDay.setDate(currentDay.getDate() + 1)
 ) {
   process.stdout.write(currentDay.getDate().toString().padStart(2));
-  if (currentDay.getDay() === 6) {
+  if (currentDay.getDate() === lastDay.getDate()) {
+    process.stdout.write("\n\n");
+  } else if (currentDay.getDay() === 6) {
     process.stdout.write("\n");
-  } else if (currentDay.getDate() !== lastDay.getDate()) {
+  } else {
     process.stdout.write(" ");
   }
-}
-if (lastDay.getDay() === 6) {
-  process.stdout.write("\n");
-} else {
-  process.stdout.write("\n\n");
 }
