@@ -11,7 +11,7 @@ const dropTableSQL = "DROP TABLE books";
 runSQL(db, createTableSQL)
   .then(() => {
     console.log("テーブルが作成されました。");
-    return runSQL(db, insertTableSQL, ["book_title"]);
+    return runSQL(db, insertTableSQL, ["TestBook"]);
   })
   .then((result) => {
     console.log(`レコードが追加されました。自動採番されたID: ${result.lastID}`);

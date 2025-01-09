@@ -10,7 +10,7 @@ const dropTableSQL = "DROP TABLE books";
 db.run(createTableSQL, () => {
   console.log("テーブルが作成されました。");
 
-  db.run(insertTableSQL, ["book_title"], (err) => {
+  db.run(insertTableSQL, ["TestBook"], (err) => {
     if (err) {
       console.error(err.message);
     }

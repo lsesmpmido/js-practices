@@ -11,7 +11,7 @@ const dropTableSQL = "DROP TABLE books";
 runSQL(db, createTableSQL)
   .then(() => {
     console.log("テーブルが作成されました。");
-    return runSQL(db, insertTableSQL, ["book_title"]);
+    return runSQL(db, insertTableSQL, ["TestBook"]);
   })
   .catch((err) => {
     console.error(err.message);

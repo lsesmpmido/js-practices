@@ -11,7 +11,7 @@ const dropTableSQL = "DROP TABLE books";
 await runSQL(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
-const result = await runSQL(db, insertTableSQL, ["book_title"]);
+const result = await runSQL(db, insertTableSQL, ["TestBook"]);
 console.log(`レコードが追加されました。自動採番されたID: ${result.lastID}`);
 
 const books = await allSQL(db, selectTableSQL);

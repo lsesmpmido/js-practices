@@ -12,7 +12,7 @@ await runSQL(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
 try {
-  await runSQL(db, insertTableSQL, ["book_title"]);
+  await runSQL(db, insertTableSQL, ["TestBook"]);
 } catch (err) {
   console.error(err.message);
 }
