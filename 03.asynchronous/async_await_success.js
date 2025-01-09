@@ -11,13 +11,11 @@ const dropTableSQL = "DROP TABLE books";
 await runSQL(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
-const insertResult = await runSQL(db, insertTableSQL, ["book_title"]);
-console.log(
-  `レコードが追加されました。自動採番されたID: ${insertResult.lastID}`,
-);
+const result = await runSQL(db, insertTableSQL, ["book_title"]);
+console.log(`レコードが追加されました。自動採番されたID: ${result.lastID}`);
 
-const selectResult = await allSQL(db, selectTableSQL);
-console.log("取得したレコード:", selectResult);
+const books = await allSQL(db, selectTableSQL);
+console.log("取得したレコード:", books);
 
 await runSQL(db, dropTableSQL);
 console.log("テーブルが削除されました。");
