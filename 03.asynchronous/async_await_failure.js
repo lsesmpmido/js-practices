@@ -15,13 +15,21 @@ console.log("テーブルが作成されました。");
 try {
   await runQuery(db, insertTableSQLIncorrect, ["TestBook"]);
 } catch (err) {
-  console.error(err.message);
+  if (err.message.startsWith("SQLITE_ERROR:")) {
+    console.error(err.message);
+  } else {
+    throw err;
+  }
 }
 
 try {
   await fetchAll(db, selectTableSQLIncorrect);
 } catch (err) {
-  console.error(err.message);
+  if (err.message.startsWith("SQLITE_ERROR:")) {
+    console.error(err.message);
+  } else {
+    throw err;
+  }
 }
 
 await runQuery(db, dropTableSQL);
