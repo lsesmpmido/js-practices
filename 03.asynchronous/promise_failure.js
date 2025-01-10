@@ -1,21 +1,22 @@
 import sqlite3 from "sqlite3";
 import { runSQL, allSQL } from "./sql_utils.js";
+import {
+  createTableSQL,
+  insertTableSQLIncorrect,
+  selectTableSQLIncorrect,
+  dropTableSQL,
+} from "./book_sql.js";
 
 const db = new sqlite3.Database(":memory:");
-const createTableSQL =
-  "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE);";
-const insertTableSQL = "INSERT INTO boooks (title) VALUES (?)";
-const selectTableSQL = "SELECT book_id FROM books";
-const dropTableSQL = "DROP TABLE books";
 
 runSQL(db, createTableSQL)
   .then(() => {
     console.log("テーブルが作成されました。");
-    return runSQL(db, insertTableSQL, ["TestBook"]);
+    return runSQL(db, insertTableSQLIncorrect, ["TestBook"]);
   })
   .catch((err) => {
     console.error(err.message);
-    return allSQL(db, selectTableSQL);
+    return allSQL(db, selectTableSQLIncorrect);
   })
   .catch((err) => {
     console.error(err.message);
