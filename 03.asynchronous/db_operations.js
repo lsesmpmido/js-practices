@@ -1,4 +1,4 @@
-export const runQuery = (db, sql, params = []) => {
+export const runQuery = (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) {
