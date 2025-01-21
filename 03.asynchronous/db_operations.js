@@ -24,11 +24,11 @@ export const fetchAll = (db, sql) => {
 
 export const closeDb = (db) => {
   return new Promise((resolve, reject) => {
-    db.close((err, rows) => {
+    db.close((err) => {
       if (err) {
         reject(err);
       } else {
-        resolve(rows);
+        resolve();
       }
     });
   });
