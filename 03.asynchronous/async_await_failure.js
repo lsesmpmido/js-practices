@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { runQuery, fetchAll, closeDb } from "./db_operations.js";
+import { executeDb, fetchDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
   insertTableSQLIncorrect,
@@ -9,11 +9,11 @@ import {
 
 const db = new sqlite3.Database(":memory:");
 
-await runQuery(db, createTableSQL);
+await executeDb(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
 try {
-  await runQuery(db, insertTableSQLIncorrect, ["TestBook"]);
+  await executeDb(db, insertTableSQLIncorrect, ["TestBook"]);
 } catch (err) {
   if (err instanceof Error && err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
@@ -23,7 +23,7 @@ try {
 }
 
 try {
-  await fetchAll(db, selectTableSQLIncorrect);
+  await fetchDb(db, selectTableSQLIncorrect);
 } catch (err) {
   if (err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
@@ -32,7 +32,7 @@ try {
   }
 }
 
-await runQuery(db, dropTableSQL);
+await executeDb(db, dropTableSQL);
 console.log("テーブルが削除されました。");
 
 await closeDb(db);

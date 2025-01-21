@@ -1,4 +1,4 @@
-export const runQuery = (db, sql, params) => {
+export const executeDb = (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) {
@@ -10,7 +10,7 @@ export const runQuery = (db, sql, params) => {
   });
 };
 
-export const fetchAll = (db, sql, params) => {
+export const fetchDb = (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) {

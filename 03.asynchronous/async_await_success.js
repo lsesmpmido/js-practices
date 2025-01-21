@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { runQuery, fetchAll, closeDb } from "./db_operations.js";
+import { executeDb, fetchDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
   insertTableSQLCorrect,
@@ -9,16 +9,16 @@ import {
 
 const db = new sqlite3.Database(":memory:");
 
-await runQuery(db, createTableSQL);
+await executeDb(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
-const result = await runQuery(db, insertTableSQLCorrect, ["TestBook"]);
+const result = await executeDb(db, insertTableSQLCorrect, ["TestBook"]);
 console.log(`レコードが追加されました。自動採番されたID: ${result.lastID}`);
 
-const books = await fetchAll(db, selectTableSQLCorrect);
+const books = await fetchDb(db, selectTableSQLCorrect);
 console.log("取得したレコード:", books);
 
-await runQuery(db, dropTableSQL);
+await executeDb(db, dropTableSQL);
 console.log("テーブルが削除されました。");
 
 await closeDb(db);
