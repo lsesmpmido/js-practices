@@ -10,9 +10,9 @@ export const runQuery = (db, sql, params) => {
   });
 };
 
-export const fetchAll = (db, sql) => {
+export const fetchAll = (db, sql, params) => {
   return new Promise((resolve, reject) => {
-    db.all(sql, (err, rows) => {
+    db.all(sql, params, (err, rows) => {
       if (err) {
         reject(err);
       } else {
