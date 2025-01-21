@@ -15,7 +15,7 @@ console.log("テーブルが作成されました。");
 try {
   await runQuery(db, insertTableSQLIncorrect, ["TestBook"]);
 } catch (err) {
-  if (err.message.startsWith("SQLITE_ERROR:")) {
+  if (err instanceof Error && err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
   } else {
     throw err;
