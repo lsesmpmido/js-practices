@@ -33,10 +33,10 @@ async function readMemo(memoDb) {
     memoDb,
     "Choose a note you want to see:",
     async (memoDb, id) => {
-      const memo = await memoDb.runDbGet("SELECT * FROM memos WHERE id = ?", [
-        id,
-      ]);
-      console.log(memo.content);
+      const memo = await memoDb.selectMemo(id);
+      if (memo) {
+        console.log(memo.content);
+      }
     },
   );
 }

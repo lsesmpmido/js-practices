@@ -53,6 +53,12 @@ class MemoDb {
     });
   }
 
+  selectMemo(id) {
+    return this.runDbGet("SELECT * FROM memos WHERE id = ?", [id]).then(
+      (memo) => memo,
+    );
+  }
+
   insertMemo(content) {
     return this.runDbRun("INSERT INTO memos (content) VALUES (?)", [
       content,
