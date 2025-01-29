@@ -6,89 +6,93 @@ import enquirer from "enquirer";
 const { Select } = enquirer;
 import MemoDb from "./memo_db.js";
 
-async function main() {
-  const args = minimist(process.argv.slice(2));
-  const memoDb = new MemoDb();
+class App {
+  constructor() {
+    this.memoDb = new MemoDb();
+  }
 
-  if (args.l) {
-    await listMemos(memoDb);
-  } else if (args.r) {
-    await readMemo(memoDb);
-  } else if (args.d) {
-    await deleteMemo(memoDb);
-  } else if (args._.length === 0) {
-    await createMemo(memoDb);
+  async execute() {
+    const args = minimist(process.argv.slice(2));
+
+    if (args.l) {
+      await this.#listMemos();
+    } else if (args.r) {
+      await this.#readMemo();
+    } else if (args.d) {
+      await this.#deleteMemo();
+    } else if (args._.length === 0) {
+      await this.#createMemo();
+    }
+  }
+
+  async #listMemos() {
+    const memos = await this.memoDb.loadMemos();
+    memos.forEach((memo, index) =>
+      console.log(`${index + 1}: ${memo.firstLine()}`),
+    );
+  }
+
+  async #readMemo() {
+    await this.#chooseMemoAction(
+      "Choose a note you want to see:",
+      async (id) => {
+        const memo = await this.memoDb.selectMemo(id);
+        if (memo) {
+          console.log(memo.content);
+        }
+      },
+    );
+  }
+
+  async #deleteMemo() {
+    await this.#chooseMemoAction(
+      "Choose a note you want to delete:",
+      async (id) => {
+        await this.memoDb.deleteMemo(id);
+      },
+    );
+  }
+
+  async #createMemo() {
+    console.log("Write a note:");
+    const memoContent = await this.#inputMemoContent();
+    await this.memoDb.insertMemo(memoContent.trim());
+  }
+
+  #inputMemoContent() {
+    return new Promise((resolve) => {
+      let allInput = "";
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.on("line", (input) => (allInput += input + "\n"));
+      rl.on("close", () => resolve(allInput));
+    });
+  }
+
+  async #chooseMemoAction(actionMessage, actionCallback) {
+    const memos = await this.memoDb.loadMemos();
+    if (memos.length === 0) return;
+
+    const choices = memos.map((memo) => ({
+      name: memo.firstLine(),
+      value: memo.id,
+    }));
+
+    const prompt = new Select({
+      message: actionMessage,
+      choices: choices,
+      result() {
+        return this.focused.value;
+      },
+    });
+
+    const id = await prompt.run();
+    await actionCallback(id);
   }
 }
 
-async function listMemos(memoDb) {
-  const memos = await memoDb.loadMemos();
-  memos.forEach((memo, index) =>
-    console.log(`${index + 1}: ${memo.firstLine()}`),
-  );
-}
-
-async function readMemo(memoDb) {
-  await chooseMemoAction(
-    memoDb,
-    "Choose a note you want to see:",
-    async (memoDb, id) => {
-      const memo = await memoDb.selectMemo(id);
-      if (memo) {
-        console.log(memo.content);
-      }
-    },
-  );
-}
-
-async function deleteMemo(memoDb) {
-  await chooseMemoAction(
-    memoDb,
-    "Choose a note you want to delete:",
-    async (memoDb, id) => {
-      await memoDb.deleteMemo(id);
-    },
-  );
-}
-
-async function createMemo(memoDb) {
-  console.log("Write a note:");
-  const memoContent = await inputMemoContent();
-  await memoDb.insertMemo(memoContent.trim());
-}
-
-function inputMemoContent() {
-  return new Promise((resolve) => {
-    let allInput = "";
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    rl.on("line", (input) => (allInput += input + "\n"));
-    rl.on("close", () => resolve(allInput));
-  });
-}
-
-async function chooseMemoAction(memoDb, actionMessage, actionCallback) {
-  const memos = await memoDb.loadMemos();
-  if (memos.length === 0) return;
-
-  const choices = memos.map((memo) => ({
-    name: memo.firstLine(),
-    value: memo.id,
-  }));
-
-  const prompt = new Select({
-    message: actionMessage,
-    choices: choices,
-    result() {
-      return this.focused.value;
-    },
-  });
-
-  const id = await prompt.run();
-  await actionCallback(memoDb, id);
-}
-
-main();
+const app = new App();
+app.execute();
