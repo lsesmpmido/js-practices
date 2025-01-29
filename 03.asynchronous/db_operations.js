@@ -1,4 +1,4 @@
-export const executeDb = (db, sql, params) => {
+export const runDb = (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) {
