@@ -4,19 +4,19 @@ import Memo from "./memo.js";
 class MemoDb {
   constructor() {
     this.db = new sqlite3.Database("memo.db");
-    this.runDbRun(
+    this.changeDb(
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
     );
   }
 
   loadMemos() {
-    return this.runDbAll("SELECT * FROM memos").then((rows) => {
+    return this.fetchAll("SELECT * FROM memos").then((rows) => {
       if (rows.length === 0) console.log("No note");
       return rows.map((row) => new Memo(row.id, row.content));
     });
   }
 
-  runDbAll(query, params = []) {
+  fetchAll(query, params = []) {
     return new Promise((resolve, reject) => {
       this.db.all(query, params, (err, rows) => {
         if (err) {
@@ -28,7 +28,7 @@ class MemoDb {
     });
   }
 
-  runDbGet(query, params) {
+  fetchOne(query, params) {
     return new Promise((resolve, reject) => {
       this.db.get(query, params, (err, row) => {
         if (err) {
@@ -41,7 +41,7 @@ class MemoDb {
     });
   }
 
-  runDbRun(sql, params = []) {
+  changeDb(sql, params = []) {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, (err) => {
         if (err) {
@@ -54,13 +54,13 @@ class MemoDb {
   }
 
   selectMemo(id) {
-    return this.runDbGet("SELECT * FROM memos WHERE id = ?", [id]).then(
+    return this.fetchOne("SELECT * FROM memos WHERE id = ?", [id]).then(
       (memo) => memo,
     );
   }
 
   insertMemo(content) {
-    return this.runDbRun("INSERT INTO memos (content) VALUES (?)", [
+    return this.changeDb("INSERT INTO memos (content) VALUES (?)", [
       content,
     ]).then(() => {
       console.log("Note has been saved");
@@ -68,7 +68,7 @@ class MemoDb {
   }
 
   deleteMemo(id) {
-    return this.runDbRun("DELETE FROM memos WHERE id = ?", [id]).then(() => {
+    return this.changeDb("DELETE FROM memos WHERE id = ?", [id]).then(() => {
       console.log("Note has been deleted");
     });
   }
