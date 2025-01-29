@@ -25,7 +25,7 @@ try {
 try {
   await fetchDb(db, selectTableSQLWithError);
 } catch (err) {
-  if (err.message.startsWith("SQLITE_ERROR:")) {
+  if (err instanceof Error && err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
   } else {
     throw err;
