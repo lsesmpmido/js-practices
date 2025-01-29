@@ -1,27 +1,27 @@
 import sqlite3 from "sqlite3";
 import {
-  creationTableSQL,
-  insertionTableSQLWithError,
-  selectionTableSQLWithError,
-  droppingTableSQL,
+  createTableSQL,
+  insertTableSQLWithError,
+  selectTableSQLWithError,
+  dropTableSQL,
 } from "./book_sql.js";
 
 const db = new sqlite3.Database(":memory:");
 
-db.run(creationTableSQL, () => {
+db.run(createTableSQL, () => {
   console.log("テーブルが作成されました。");
 
-  db.run(insertionTableSQLWithError, ["TestBook"], (err) => {
+  db.run(insertTableSQLWithError, ["TestBook"], (err) => {
     if (err) {
       console.error(err.message);
     }
 
-    db.all(selectionTableSQLWithError, (err) => {
+    db.all(selectTableSQLWithError, (err) => {
       if (err) {
         console.error(err.message);
       }
 
-      db.run(droppingTableSQL, () => {
+      db.run(dropTableSQL, () => {
         console.log("テーブルが削除されました。");
 
         db.close();
