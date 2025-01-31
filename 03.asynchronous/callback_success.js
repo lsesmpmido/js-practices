@@ -1,8 +1,8 @@
 import sqlite3 from "sqlite3";
 import {
   createTableSQL,
-  insertTableSQL,
-  selectTableSQL,
+  insertBooksSQL,
+  selectBooksSQL,
   dropTableSQL,
 } from "./book_sql.js";
 
@@ -11,10 +11,10 @@ const db = new sqlite3.Database(":memory:");
 db.run(createTableSQL, () => {
   console.log("テーブルが作成されました。");
 
-  db.run(insertTableSQL, ["TestBook"], function () {
+  db.run(insertBooksSQL, ["TestBook"], function () {
     console.log(`レコードが追加されました。自動採番されたID: ${this.lastID}`);
 
-    db.all(selectTableSQL, (_, books) => {
+    db.all(selectBooksSQL, (_, books) => {
       console.log("取得したレコード:", books);
 
       db.run(dropTableSQL, () => {

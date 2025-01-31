@@ -2,8 +2,8 @@ import sqlite3 from "sqlite3";
 import { runDb, fetchAllDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
-  insertTableSQLWithError,
-  selectTableSQLWithError,
+  insertBooksSQLWithError,
+  selectBooksSQLWithError,
   dropTableSQL,
 } from "./book_sql.js";
 
@@ -13,7 +13,7 @@ await runDb(db, createTableSQL);
 console.log("テーブルが作成されました。");
 
 try {
-  await runDb(db, insertTableSQLWithError, ["TestBook"]);
+  await runDb(db, insertBooksSQLWithError, ["TestBook"]);
 } catch (err) {
   if (err instanceof Error && err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
@@ -23,7 +23,7 @@ try {
 }
 
 try {
-  await fetchAllDb(db, selectTableSQLWithError);
+  await fetchAllDb(db, selectBooksSQLWithError);
 } catch (err) {
   if (err instanceof Error && err.message.startsWith("SQLITE_ERROR:")) {
     console.error(err.message);
