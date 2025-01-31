@@ -34,19 +34,16 @@ class App {
   }
 
   async #readMemo() {
-    await this.#chooseMemoAction(
-      "Choose a note you want to see:",
-      async (id) => {
-        const memo = await this.memoDb.selectMemo(id);
-        if (memo) {
-          console.log(memo.content);
-        }
-      },
-    );
+    await this.#chooseAction("Choose a note you want to see:", async (id) => {
+      const memo = await this.memoDb.selectMemo(id);
+      if (memo) {
+        console.log(memo.content);
+      }
+    });
   }
 
   async #deleteMemo() {
-    await this.#chooseMemoAction(
+    await this.#chooseAction(
       "Choose a note you want to delete:",
       async (id) => {
         await this.memoDb.deleteMemo(id);
@@ -75,7 +72,7 @@ class App {
     });
   }
 
-  async #chooseMemoAction(actionMessage, actionCallback) {
+  async #chooseAction(message, callback) {
     const memos = await this.memoDb.loadMemos();
     if (memos.length === 0) {
       console.log("No note");
@@ -88,7 +85,7 @@ class App {
     }));
 
     const prompt = new Select({
-      message: actionMessage,
+      message: message,
       choices: choices,
       result() {
         return this.focused.value;
@@ -96,7 +93,7 @@ class App {
     });
 
     const id = await prompt.run();
-    await actionCallback(id);
+    await callback(id);
   }
 }
 
