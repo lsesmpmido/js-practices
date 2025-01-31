@@ -4,7 +4,7 @@ import Memo from "./memo.js";
 class MemoDb {
   constructor() {
     this.db = new sqlite3.Database("memo.db");
-    this.changeDb(
+    this.execute(
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
     );
   }
@@ -41,7 +41,7 @@ class MemoDb {
     });
   }
 
-  changeDb(sql, params = []) {
+  execute(sql, params = []) {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, (err) => {
         if (err) {
@@ -60,7 +60,7 @@ class MemoDb {
   }
 
   insertMemo(content) {
-    return this.changeDb("INSERT INTO memos (content) VALUES (?)", [
+    return this.execute("INSERT INTO memos (content) VALUES (?)", [
       content,
     ]).then(() => {
       console.log("Note has been saved");
@@ -68,7 +68,7 @@ class MemoDb {
   }
 
   deleteMemo(id) {
-    return this.changeDb("DELETE FROM memos WHERE id = ?", [id]).then(() => {
+    return this.execute("DELETE FROM memos WHERE id = ?", [id]).then(() => {
       console.log("Note has been deleted");
     });
   }
