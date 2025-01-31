@@ -1,0 +1,70 @@
+import sqlite3 from "sqlite3";
+import Memo from "./memo.js";
+
+class MemoDb {
+  constructor() {
+    this.db = new sqlite3.Database("memo.db");
+    this.execute(
+      "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
+    );
+  }
+
+  loadMemos() {
+    return this.fetchAll("SELECT * FROM memos").then((rows) => {
+      return rows.map((row) => new Memo(row.id, row.content));
+    });
+  }
+
+  fetchAll(query, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.all(query, params, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
+  fetchOne(query, params) {
+    return new Promise((resolve, reject) => {
+      this.db.get(query, params, (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          const memo = new Memo(row.id, row.content);
+          resolve(memo);
+        }
+      });
+    });
+  }
+
+  execute(sql, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.run(sql, params, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  selectMemo(id) {
+    return this.fetchOne("SELECT * FROM memos WHERE id = ?", [id]).then(
+      (memo) => memo,
+    );
+  }
+
+  insertMemo(content) {
+    return this.execute("INSERT INTO memos (content) VALUES (?)", [content]);
+  }
+
+  deleteMemo(id) {
+    return this.execute("DELETE FROM memos WHERE id = ?", [id]);
+  }
+}
+
+export default MemoDb;
