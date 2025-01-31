@@ -54,12 +54,12 @@ class App {
 
   async #createMemo() {
     console.log("Write a note:");
-    const memoContent = await this.#inputMemoContent();
+    const memoContent = await this.#fetchMemoContent();
     await this.memoDb.insertMemo(memoContent.trim());
     console.log("Note has been saved");
   }
 
-  #inputMemoContent() {
+  #fetchMemoContent() {
     return new Promise((resolve) => {
       let allInput = "";
       const rl = readline.createInterface({
