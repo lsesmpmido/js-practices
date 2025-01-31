@@ -11,7 +11,6 @@ class MemoDb {
 
   loadMemos() {
     return this.fetchAll("SELECT * FROM memos").then((rows) => {
-      if (rows.length === 0) console.log("No note");
       return rows.map((row) => new Memo(row.id, row.content));
     });
   }
@@ -60,17 +59,11 @@ class MemoDb {
   }
 
   insertMemo(content) {
-    return this.execute("INSERT INTO memos (content) VALUES (?)", [
-      content,
-    ]).then(() => {
-      console.log("Note has been saved");
-    });
+    return this.execute("INSERT INTO memos (content) VALUES (?)", [content]);
   }
 
   deleteMemo(id) {
-    return this.execute("DELETE FROM memos WHERE id = ?", [id]).then(() => {
-      console.log("Note has been deleted");
-    });
+    return this.execute("DELETE FROM memos WHERE id = ?", [id]);
   }
 }
 

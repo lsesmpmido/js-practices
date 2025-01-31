@@ -27,6 +27,7 @@ class App {
 
   async #listMemos() {
     const memos = await this.memoDb.loadMemos();
+    if (memos.length === 0) console.log("No note");
     memos.forEach((memo, index) =>
       console.log(`${index + 1}: ${memo.firstLine()}`),
     );
@@ -49,6 +50,7 @@ class App {
       "Choose a note you want to delete:",
       async (id) => {
         await this.memoDb.deleteMemo(id);
+        console.log("Note has been deleted");
       },
     );
   }
@@ -57,6 +59,7 @@ class App {
     console.log("Write a note:");
     const memoContent = await this.#inputMemoContent();
     await this.memoDb.insertMemo(memoContent.trim());
+    console.log("Note has been saved");
   }
 
   #inputMemoContent() {
@@ -74,7 +77,10 @@ class App {
 
   async #chooseMemoAction(actionMessage, actionCallback) {
     const memos = await this.memoDb.loadMemos();
-    if (memos.length === 0) return;
+    if (memos.length === 0) {
+      console.log("No note");
+      return;
+    }
 
     const choices = memos.map((memo) => ({
       name: memo.firstLine(),
