@@ -10,7 +10,7 @@ export const runDb = (db, sql, params) => {
   });
 };
 
-export const fetchAllDb = (db, sql, params) => {
+export const allDb = (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) {

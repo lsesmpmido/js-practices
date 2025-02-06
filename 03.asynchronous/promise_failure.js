@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { runDb, fetchAllDb, closeDb } from "./db_operations.js";
+import { runDb, allDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
   insertRecordsSQLWithError,
@@ -16,7 +16,7 @@ runDb(db, createTableSQL)
   })
   .catch((err) => {
     console.error(err.message);
-    return fetchAllDb(db, selectRecordsSQLWithError);
+    return allDb(db, selectRecordsSQLWithError);
   })
   .catch((err) => {
     console.error(err.message);

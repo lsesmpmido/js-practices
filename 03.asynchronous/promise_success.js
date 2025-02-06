@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { runDb, fetchAllDb, closeDb } from "./db_operations.js";
+import { runDb, allDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
   insertRecordsSQL,
@@ -16,7 +16,7 @@ runDb(db, createTableSQL)
   })
   .then((result) => {
     console.log(`レコードが追加されました。自動採番されたID: ${result.lastID}`);
-    return fetchAllDb(db, selectRecordsSQL);
+    return allDb(db, selectRecordsSQL);
   })
   .then((books) => {
     console.log("取得したレコード:", books);
