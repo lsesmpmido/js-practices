@@ -2,8 +2,8 @@ import sqlite3 from "sqlite3";
 import { runDb, fetchAllDb, closeDb } from "./db_operations.js";
 import {
   createTableSQL,
-  insertBooksSQLWithError,
-  selectBooksSQLWithError,
+  insertRecordsSQLWithError,
+  selectRecordsSQLWithError,
   dropTableSQL,
 } from "./book_sql.js";
 
@@ -12,11 +12,11 @@ const db = new sqlite3.Database(":memory:");
 runDb(db, createTableSQL)
   .then(() => {
     console.log("テーブルが作成されました。");
-    return runDb(db, insertBooksSQLWithError, ["TestBook"]);
+    return runDb(db, insertRecordsSQLWithError, ["TestBook"]);
   })
   .catch((err) => {
     console.error(err.message);
-    return fetchAllDb(db, selectBooksSQLWithError);
+    return fetchAllDb(db, selectRecordsSQLWithError);
   })
   .catch((err) => {
     console.error(err.message);
